@@ -1,6 +1,8 @@
 import React from 'react';
-class App extends React.Component {
-   
+import './App.css';
+import NewsList from './components/NewsList';
+
+class App extends React.Component {   
     // Constructor 
     constructor(props) {
         super(props);
@@ -14,7 +16,7 @@ class App extends React.Component {
     // execute the code 
     componentDidMount() {
         fetch(
-"https://jsonplaceholder.typicode.com/users")
+"https://newsapi.org/v2/top-headlines?country=us&apiKey=788703c5467e43ecb2011237ad66d369")
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
@@ -29,18 +31,9 @@ class App extends React.Component {
             <h1> Please wait some time.... </h1> </div> ;
    
         return (
-        <div className = "App">
-            <h1> Fetching data from an api in React </h1>  {
-                items.map((item) => ( 
-                <div key = { item.id } >
-                   <p>Username: { item.username }</p> 
-                    <p>Fullname: { item.name }</p> 
-                    <p>User_Email: {item.email}</p> 
-                    <br></br>
-                    </div>
-                ))
-            }
-        </div>
+            <div className="App">
+                <NewsList/>
+          </div>
     );
 }
 }
