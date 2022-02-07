@@ -1,41 +1,78 @@
-import React from 'react';
-import './App.css';
-import NewsList from './components/NewsList';
+import React, { useState, useEffect } from 'react'
+import SearchForm from './SearchForm'
+import loading from './loading.gif'
+// import { uuid4 } from uuid4
 
-class App extends React.Component {   
-    // Constructor 
-    constructor(props) {
-        super(props);
-   
-        this.state = {
-            items: [],
-            DataisLoaded: false
-        };
+const App = () => {
+  const [articles, setArticles] = useState([])
+  const [term, setTerm] = useState('everything')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await fetch(
+          `https://newsapi.org/v2/everything?q=${term}&from=2022-02-06&to=2022-02-06&sortBy=popularity&apiKey=788703c5467e43ecb2011237ad66d369`
+        )
+        const articles = await res.json()
+        console.log(articles.articles)
+        setArticles(articles.articles)
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error)
+      }
     }
-  // ComponentDidMount is used to
-    // execute the code 
-    componentDidMount() {
-        fetch(
-"https://newsapi.org/v2/top-headlines?country=us&apiKey=788703c5467e43ecb2011237ad66d369")
-            .then((res) => res.json())
-            .then((json) => {
-                this.setState({
-                    items: json,
-                    DataisLoaded: true
-                });
-            })
-    }
-    render() {
-        const { DataisLoaded, items } = this.state;
-        if (!DataisLoaded) return <div>
-            <h1> Please wait some time.... </h1> </div> ;
-   
-        return (
-            <div className="App">
-                <NewsList/>
-          </div>
-    );
-}
+
+    fetchArticles()
+  }, [term])
+
+  return (
+    <>
+      <div className="showcase">
+        <div className="overlay">
+          <h1 className="heading">
+            Viewing articles about <span>{term}</span>
+          </h1>
+          <SearchForm searchText={(text) => setTerm(text)} />
+        </div>
+      </div>
+
+      {isLoading ? (
+        <img className='load' src={loading} alt="Loading..." />
+      ) : (
+        <section className="grid">
+          {articles.map((article) => {
+            const {
+              author,
+              description,
+              title,
+              url,
+              urlToImage,
+            } = article
+
+            return (
+              <article className="card" key={url}>
+                <img
+                  className="news-img"
+                  src={urlToImage}
+                  alt="Preview Unavailable"
+                ></img>
+
+                <h2 className="title">
+                  <a href={url} target="_blank"
+                  rel="noopener noreferrer">
+                    {title}
+                  </a>
+                </h2>
+                <h4>By: {author}</h4>
+                <p>{description}</p>
+              </article>
+            )
+          })}
+        </section>
+      )}
+    </>
+  )
 }
 
-export default App;
+export default App
