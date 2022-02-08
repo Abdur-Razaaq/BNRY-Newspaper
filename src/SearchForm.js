@@ -11,14 +11,15 @@ const SearchForm = ({searchText}) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form className="search-form" onSubmit={handleSubmit}>
         <input
+          className="input"
           type="text"
           placeholder="e.g. politics"
           onChange={(e) => setText(e.target.value)}
           required
         />
-        <button type="submit">Submit</button>
+        <button className="search-btn" type="submit">Submit</button>
       </form>
     </div>
   )

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SearchForm from './SearchForm'
 import loading from './loading.gif'
-// import { uuid4 } from uuid4
 
 const App = () => {
   const [articles, setArticles] = useState([])
@@ -12,10 +11,9 @@ const App = () => {
     const fetchArticles = async () => {
       try {
         const res = await fetch(
-          `https://newsapi.org/v2/everything?q=${term}&from=2022-02-06&to=2022-02-06&sortBy=popularity&apiKey=788703c5467e43ecb2011237ad66d369`
+          `https://newsapi.org/v2/everything?q=${term}&from=2022-02-06&to=2022-02-06&sortBy=popularity&apiKey=${process.env.REACT_APP_API_KEY}`
         )
         const articles = await res.json()
-        console.log(articles.articles)
         setArticles(articles.articles)
         setIsLoading(false)
       } catch (error) {
@@ -43,7 +41,6 @@ const App = () => {
         <section className="grid">
           {articles.map((article) => {
             const {
-              author,
               description,
               title,
               url,
@@ -52,20 +49,23 @@ const App = () => {
 
             return (
               <article className="card" key={url}>
+                <a href={url}>
                 <img
                   className="news-img"
                   src={urlToImage}
                   alt="Preview Unavailable"
-                ></img>
+                  ></img>
+                </a>
 
-                <h2 className="title">
-                  <a href={url} target="_blank"
+                <h3 className="title">
+                  <a className='title-url' href={url} target="_blank"
                   rel="noopener noreferrer">
                     {title}
                   </a>
-                </h2>
-                <h4>By: {author}</h4>
-                <p>{description}</p>
+                </h3>
+
+                <p className='description'>{description}</p>
+                <a href={url}><button className='btn'>Read More</button></a>
               </article>
             )
           })}
