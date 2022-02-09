@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/BNRY-Newspaper/static/css/main.1ea8c674.css",
+    "main.js": "/BNRY-Newspaper/static/js/main.2c490562.js",
+    "index.html": "/BNRY-Newspaper/index.html",
+    "main.1ea8c674.css.map": "/BNRY-Newspaper/static/css/main.1ea8c674.css.map",
+    "main.2c490562.js.map": "/BNRY-Newspaper/static/js/main.2c490562.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1ea8c674.css",
+    "static/js/main.2c490562.js"
+  ]
+}
